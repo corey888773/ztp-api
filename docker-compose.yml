@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  golang-service:
+    build:
+      context: './'
+      dockerfile: 'Dockerfile'
+    image: 'corey773/ztp-api:latest'
+    ports:
+      - '8000:8000'
+    hostname: 'ztp-api'
+    environment:
+      - MONGO_URI=mongodb://ztp-mongo:27017
+
+#  mongodb:
+#    image: 'mongo:latest'
+#    ports:
+#      - '27017:27017'
+#    hostname: 'ztp-mongo'
