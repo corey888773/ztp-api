@@ -27,3 +27,6 @@ go.work.sum
 
 # intelij idea
 .idea/
+
+# testing
+mongodb/
