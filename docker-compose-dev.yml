@@ -1,0 +1,26 @@
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongodb:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    container_name: mongodb
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+
+  mongo-init:
+    image: mongo:latest
+    container_name: mongo-init
+    restart: "no"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: >
+      mongosh --host localhost:27017 --eval "
+      rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] })" 

@@ -6,6 +6,9 @@ SRC := main.go
 build:
 	go build -o $(OUT) $(SRC)
 
+dev:
+	docker compose -f docker-compose-dev.yml up -d && go run main.go
+
 .PHONY: compose\:down\:orphans
 compose\:down\:orphans:
 	docker compose down --remove-orphans
